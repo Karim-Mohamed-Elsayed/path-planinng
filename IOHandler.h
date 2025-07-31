@@ -12,6 +12,8 @@ vector<vector<float>> readCSV(const string& filename) {
     string line;
 
     while (getline(file, line)) {
+        if ( line.empty() || line.at(0) == '#' ) continue;
+
         stringstream lineStream(line);
         string cell;
         vector<float> row;

@@ -1,0 +1,68 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\cppfile\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1AFEAD64-5572-4B3D-8136-EF328F3D1122}|cppfile.vcxproj|E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\algorithm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AFEAD64-5572-4B3D-8136-EF328F3D1122}|cppfile.vcxproj|E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\algorithm.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AFEAD64-5572-4B3D-8136-EF328F3D1122}|cppfile.vcxproj|E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\IOHandler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "algorithm.h",
+              "DocumentMoniker": "E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\algorithm.h",
+              "RelativeDocumentMoniker": "..\\algorithm.h",
+              "ToolTip": "E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\algorithm.h",
+              "RelativeToolTip": "..\\algorithm.h",
+              "ViewState": "AQIAAM8AAAAAAAAAAAAAAN8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-07-30T16:53:24.383Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IOHandler.h",
+              "DocumentMoniker": "E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\IOHandler.h",
+              "RelativeDocumentMoniker": "..\\IOHandler.h",
+              "ToolTip": "E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\IOHandler.h",
+              "RelativeToolTip": "..\\IOHandler.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-07-30T16:14:55.083Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "algorithm.cpp",
+              "DocumentMoniker": "E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\algorithm.cpp",
+              "RelativeDocumentMoniker": "..\\algorithm.cpp",
+              "ToolTip": "E:\\KEMO\\Programming\\CUERT\\PlanningAssessment\\path-planinng\\algorithm.cpp",
+              "RelativeToolTip": "..\\algorithm.cpp",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAAwB8AAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-07-30T16:11:10.846Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

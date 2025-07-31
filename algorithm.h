@@ -1,6 +1,7 @@
-#include <vector>
-
-
+﻿#include <vector>
+#include <cmath>
+#include <random>
+using namespace std;
 class Node
 {
 public:
@@ -18,6 +19,144 @@ public:
     }
 };
 
+Node randnode(Node* goal) {
+    static random_device rd;
+    static mt19937 gen(rd());
+
+    // Define the range: uniform distribution
+    uniform_real_distribution<> distr(-0.5, 0.5);
+    uniform_real_distribution<> mix(0.0, 1.0);
+    uniform_real_distribution<> biasDistr(0.0, 1.0);
+    // With goalBias chance, return the goal itself
+    if (biasDistr(gen) < 0.1) {
+        return *goal;
+    }
+
+    // Generate a random number
+    Node n1;
+    //n1.x = distr(gen);
+    //n1.y = distr(gen);
+    // another way of bias works but above is better can be used also with goal bias 
+    /**/
+    float biasFactor = 0.3;
+    float alpha = mix(gen) * biasFactor;
+    n1.x = (1 - alpha) * distr(gen) + alpha * goal->x;
+    n1.y = (1 - alpha) * distr(gen) + alpha * goal->y;
+    
+    return n1;
+}
+
+float calcdistance(const Node& n1, const Node& n2) {
+    float dx = n1.x - n2.x;
+    float dy = n1.y - n2.y;
+    return sqrt(dx * dx + dy * dy);
+}
+
+Node* nearestNode(const vector<Node*>& nodes,const Node& newnode) {
+    //that function could have some enhacement by using k-d trees 
+    if (nodes.empty()) return nullptr;// if nodes is empty not crash
+    float dist = 1000000;   //not reachable
+    Node* nearest = nullptr;
+    for (Node* node : nodes) {
+        float dist2 = calcdistance(*node, newnode);
+        if (dist2 < dist) {
+            dist = dist2;
+            nearest = node;
+        }
+    }
+    return nearest;
+}
+Node* steer(Node* nearest, const Node& random, float stepSize) {
+   // calc unit vector
+    float ux = 0;
+    float uy = 0;
+    float dx = random.x - nearest->x;
+    float dy = random.y - nearest->y;
+    float length = sqrt(dx * dx + dy * dy);
+
+    // Avoid division by zero and it means the rand point is same point of nearest
+    if (length == 0) {
+        return nearest;
+    }
+    else {
+         ux = dx / length;
+         uy = dy / length;
+    }
+    Node* newnode = new Node(0,nearest->x+ ux*stepSize,nearest->y+uy*stepSize);
+    
+    return newnode;
+}
+bool iscollisionfree(Node* nearest, Node* newnode, const vector<vector<float>>& obstacles) {
+
+    /* using line equation 
+    x(t)=point1.x+t⋅dx
+    y(t)=point1.y+t⋅dy
+    and t is from 0 to 1 
+    if t = 1 --> it means x and y be for the point2
+
+    distance from x,y here and the center of obstacles (as they have informed shape which is circle)
+    that distance be lower than radius if that point is colllide with obstacle but not solving to get t(needed to get the actual point)
+    equation of circle be 
+    (x(t)−obs.x)^2+(y(t)−obs.y)^2 =r^2
+    so by substituting x and y in circle func there is three posiiblties 
+    1- be smaller -> collide
+    2- be larger -> safe 
+    3- equal -> i will treat it as collide 
+    after subst be 
+    (x1+t⋅dx−cx)^2+(y1​+t⋅dy−cy)^2=r^2
+    let and expand the equation
+    fx = x1 - cx;
+    fy = y1 - cy;
+    it will leave form of ---> a⋅t^2 + b⋅t + c = 0
+    a = dx * dx + dy * dy;
+    b = 2 * (fx * dx + fy * dy);
+    c = fx * fx + fy * fy - radius * radius;
+    then search in discriminant 
+    If discriminant ≥ 0 → the line intersects the circle or means that there result or answer of equation at some t and that not what we need
+    If discriminant < 0 → no intersection.
+    */
+        for (const vector<float>& obs : obstacles) {
+            float obsx = obs[0];      // center x
+            float obsy = obs[1];      // center y
+            float radius = obs[2]/2;    // radius
+            float dx = newnode->x - nearest->x;
+            float dy = newnode->y - nearest->y;
+
+            float fx = nearest->x - obsx;
+            float fy = nearest->y - obsy;
+
+            float a = dx * dx + dy * dy;
+            float b = 2 * (fx * dx + fy * dy);
+            float c = fx * fx + fy * fy - radius * radius;
+
+            float discriminant = b * b - 4 * a * c;
+
+            if (discriminant >= 0) {
+                return false; // path intersects obstacle
+            }
+        }
+
+        return true; // no collision with any obstacle
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vector<int> YourChosenAlgorithm(vector<vector<float>> obstacles, vector<vector<float>> nodes, vector<vector<float>> &pathNodes, vector<vector<int>> &edges)
 {
     /* You should implement the algorithm you decided to use after conducting your own research over the problem statement. Please remember to do the following:
@@ -29,4 +168,67 @@ vector<int> YourChosenAlgorithm(vector<vector<float>> obstacles, vector<vector<f
     5- Use the `edges` variable to store the connections/edges between your nodes.
     6- This task is designed for a specific set of Path-Planning algorithms. If your chosen implementation REQUIRES changes in the task template, you are allowed to change ONLY if you provide explanation for all the changes you needed to make and why.
     */
+    
+
+    // Member comments
+    /*
+    as it was continous space problem path planning it need some specific algorithms
+    by some search i reached to RRT and RRT(star) and PRM it may has another solutions or algorithms but may be more complicated
+    by searching, i found that it may best suit for it be RRT(star) as it give shorter path than RRT but use more time 
+    RRT be suited also but it's rough and need smoothing but less in time 
+    as time is main point i will use RRT (temporarily)
+    i was thinking to use A* + PRM but it will be effectivve if the goal may be changed(plan multiple paths efficiently) and it wasnot so not applicaple 
+    */
+    float stepsize = 0.06;
+    vector<int> path;
+    vector<Node*> allNodes;
+    int id = 1;
+    Node* startNode = new Node(id, nodes.at(0).at(1), nodes.at(0).at(2));
+    Node* goal=new Node();
+    goal->x = nodes.at(1).at(1);
+    goal->y = nodes.at(1).at(2);
+    allNodes.push_back(startNode);
+    pathNodes.push_back({ (float)startNode->id, startNode->x, startNode->y });
+    
+
+
+    bool flag = true;
+    while (flag) {
+        Node rndNode = randnode(goal);
+        Node* nearest = nearestNode(allNodes, rndNode);
+        Node* newnode = steer(nearest, rndNode, stepsize);
+        if (iscollisionfree(nearest, newnode, obstacles)) {
+
+            newnode->parent = nearest;
+            newnode->id = ++id;
+            allNodes.push_back(newnode);
+            pathNodes.push_back({ (float)newnode->id, newnode->x, newnode->y });
+            edges.push_back({ nearest->id,newnode->id });
+
+            if (calcdistance(*goal, *newnode) < 0.05) {
+                pathNodes.push_back({ (float)++id, goal->x, goal->y });
+
+                path.push_back(id);
+                goal->parent = newnode;
+                flag = false;
+                Node* lastnode = newnode;
+                while (lastnode != nullptr) {
+                    path.push_back(lastnode->id);
+                    cout << lastnode->id << " " << lastnode->x << lastnode->y << endl;
+                    cout << "reached";
+                    lastnode = lastnode->parent;
+
+
+
+                }
+
+            }
+        }
+    }
+    
+    // some memory enhance to delete pointers i have created it cause problem here solved 
+    for (Node* node : allNodes) {
+        delete node;
+    }
+    return path ;
 }

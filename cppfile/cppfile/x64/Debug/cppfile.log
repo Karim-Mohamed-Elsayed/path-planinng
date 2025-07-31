@@ -1,0 +1,17 @@
+﻿  algorithm.cpp
+E:\KEMO\Programming\CUERT\PlanningAssessment\path-planinng\algorithm.h(41,22): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file '../algorithm.cpp')
+  
+E:\KEMO\Programming\CUERT\PlanningAssessment\path-planinng\algorithm.h(42,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  (compiling source file '../algorithm.cpp')
+  
+E:\KEMO\Programming\CUERT\PlanningAssessment\path-planinng\algorithm.h(43,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  (compiling source file '../algorithm.cpp')
+  
+E:\KEMO\Programming\CUERT\PlanningAssessment\path-planinng\algorithm.h(44,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  (compiling source file '../algorithm.cpp')
+  
+E:\KEMO\Programming\CUERT\PlanningAssessment\path-planinng\algorithm.h(182,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file '../algorithm.cpp')
+  
+  cppfile.vcxproj -> E:\KEMO\Programming\CUERT\PlanningAssessment\path-planinng\cppfile\x64\Debug\cppfile.exe
